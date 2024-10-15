@@ -135,23 +135,27 @@ body {
     font-size: 1.1rem;
     color: #333;
     z-index: 3;
+cursor: pointer;
 }
 
 .current-bid {
     font-size: 0.7rem;
     color: #666;
     margin-bottom: -0.5px;
+cursor: pointer;
 }
 
 .price-value {
     font-size: 1.5rem;
     color: #333;
+cursor: pointer;
 }
 
 .small-cents {
     font-size: 0.55rem;
     color: #333;
     vertical-align: baseline;
+cursor: pointer;
 }
 
         .jewelry-image {
@@ -510,7 +514,7 @@ const createJewelrySection = (data, sectionId) => {
             <div class="jewelry-image-container">
                 <img class="jewelry-image" src="${data['jewelry-images'][0]}" alt="${data['jewelry-title']}" width="1200" height="800">
                 <div class="jewelry-price" style="display: none;">
-                    <div class="current-bid">BID</div>
+                    <div class="current-bid">BUY</div>
                     ${data['jewelry-price']}<span class="small-cents">.00</span>
                 </div>
             </div>
