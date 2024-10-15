@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
-
 <style>
         body, html {
             margin: 0;
@@ -89,7 +88,7 @@ body {
             margin-bottom: 0.2rem;
             opacity: 0; 
             transform: translateY(50px); 
-transition: opacity 3s ease, transform 2s ease;
+            transition: opacity 3s ease, transform 2s ease;
         }
 
         .profile p {
@@ -100,7 +99,7 @@ transition: opacity 3s ease, transform 2s ease;
             margin-top: -10px;
             opacity: 0; 
             transform: translateY(50px);
-transition: opacity 4s ease, transform 3s ease; 
+            transition: opacity 4s ease, transform 3s ease; 
         }
 
         .jewelry-section {
@@ -298,8 +297,8 @@ transition: opacity 4s ease, transform 3s ease;
     height: 100%;
     overflow: hidden;
     background-color: rgba(0, 0, 0, 0.9);
-justify-content: center;
-align-items: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
@@ -456,6 +455,14 @@ label {
 
 <script>
 
+const studioImages = [
+    "1.jpg",
+    "11.jpg",
+    "12.jpg",
+    "13.jpg",
+    "14.jpg"
+];
+
     const container = document.querySelector('.container');
     const sectionsContainer = document.querySelector('#jewelry-sections-container');
 
@@ -570,6 +577,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const profileText = document.querySelector('.profile p');
     const profileImage = document.querySelector('.profile img');
     const welcomeText = document.querySelector('.welcome-text');
+
+    let currentStudioImageIndex = 0;
+    profileImage.src = studioImages[currentStudioImageIndex];
+
+    profileImage.addEventListener('click', () => {
+        currentStudioImageIndex = (currentStudioImageIndex + 1) % studioImages.length;
+        profileImage.src = studioImages[currentStudioImageIndex];
+    });
+
 
     profileTitle.style.opacity = '0';
     profileTitle.style.transform = 'translateY(55px)';
