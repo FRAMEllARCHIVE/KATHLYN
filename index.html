@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="Kathlyn Allan - Jewelry Designer. Explore stunning collections of handcrafted jewelry, including necklaces, rings, and earrings.">
+    <meta property="og:title" content="Kathlyn Allan - Jewelry Designer">
+    <meta property="og:description" content="Explore stunning collections of handcrafted jewelry, including necklaces, rings, and earrings.">
+    <meta property="og:image" content="1.jpg">
+    <meta property="og:url" content="worldofauthor.com">
+    <title>Author Adorn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+
+<style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            overflow-x: hidden;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f9f6f2;
+            color: #333;
+        }
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    scrollbar-width: none;
+}
+
+body {
+    -ms-overflow-style: none;
+}
+
+        .container {
+            height: 100vh;
+            max-width: 100vw;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            scroll-snap-align: start;
+            position: relative;
+        }
+
+        .profile {
+            background-color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        .profile-content {
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            transform: translate(0, -50%);
+            text-align: left;
+            z-index: 2;
+        }
+
+.profile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    transition: transform 10s ease;
+}
+
+.profile img.zoom-on-load {
+    transform: scale(1);
+}
+
+        .profile h1 {
+            color: #f9f6f2;
+            font-size: 6rem;
+            font-family: 'Cormorant Garamond', serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 0.2rem;
+            opacity: 0; 
+            transform: translateY(50px); 
+transition: opacity 3s ease, transform 2s ease;
+
+        }
+
+        .profile p {
+            color: #f9f6f2;
+            font-size: 2.1rem;
+            font-weight: 300;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            margin-top: -10px;
+            opacity: 0; 
+            transform: translateY(50px);
+transition: opacity 4s ease, transform 3s ease; 
+        }
+
+        .jewelry-section {
+            background-color: #f9f6f2;
+            padding: 2rem;
+        }
+
+        .jewelry-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            max-width: 1200px;
+            width: 100%;
+            padding: 0 10%;
+        }
+
+.jewelry-image-container {
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.jewelry-price {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    color: #333;
+    z-index: 3;
+}
+
+.current-bid {
+    font-size: 0.7rem;
+    color: #666;
+    margin-bottom: -0.5px;
+}
+
+.price-value {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.small-cents {
+    font-size: 0.55rem;
+    color: #333;
+    vertical-align: baseline;
+}
+
+
+
+        .jewelry-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 3s ease, transform 1s ease;
+        }
+
+        .jewelry-details {
+            text-align: left;
+            margin-top: 0.5rem;
+            max-width: 600px;
+            transition: opacity 3s ease, transform 3s ease;
+        }
+
+        .jewelry-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            margin: 0.5rem 0 1rem;
+            color: #333;
+        }
+
+        .jewelry-description {
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: #f9f6f2;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-20px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+        }
+
+.contacts-section {
+    position: relative;
+    background-color: #f9f6f2;
+    padding: 2rem; 
+}
+
+.contacts-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
+    margin: 0;
+}
+
+        .contacts-content h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            color: #333;
+        }
+
+        .contacts-content p {
+            font-size: 1.2rem;
+            margin: 1rem 0;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 3rem;
+        }
+
+        .social-links a {
+            text-decoration: none;
+            font-size: 2rem;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #1a1a1a;
+        }
+
+.dots-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    opacity: 0;
+    transition: opacity 7.2s ease;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: black;
+    border-radius: 50%;
+    margin: 0 5px;
+    opacity: 0.1;
+    transition: opacity 0.8s ease;
+    cursor: pointer;
+}
+
+.dot.active {
+    opacity: 0.4;
+}
+
+.welcome-text {
+
+    position: absolute;
+    bottom: 10%;
+    left: 20%;
+    color: white;
+    font-size: 0.3rem;
+    opacity: 0; 
+    transform: translateY(222px);
+    transition: opacity 11s ease, transform 6s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    margin-right: 5%;
+    text-align: right;
+}
+
+
+
+
+        @media (max-width: 768px) {
+            .profile h1 {
+                font-size: 3.3rem;
+            }
+            .profile p {
+                font-size: 1.2rem;
+            }
+            .jewelry-title {
+                font-size: 2rem;
+            }
+            .jewelry-description {
+                font-size: 0.8rem;
+            }
+            .jewelry-content {
+                padding: 0 5%;
+            }
+            .contacts-content h2 {
+                font-size: 2.5rem;
+            }
+            .contacts-content p {
+                font-size: 1rem;
+            }
+        }
+
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="section profile" id="section0" aria-labelledby="profile-title">
+            <img src="1.jpg" alt="Kathlyn Lange - Jewelry Designer" width="1920" height="1080">
+            <div class="profile-content">
+                <h1 id="profile-title">Kathlyn Allan</h1>
+                <p>Goldsmith</p>
+            </div>
+    <p class="welcome-text">Author Adorn. <br/> <br/> Handcrafted jewellery that illustrates our lives, our loves and our stories.</p>
+            <div class="scroll-indicator" aria-hidden="true">↓</div>
+        </section>
+
+        <div id="jewelry-sections-container"></div>
+    </div>
+
+
+
+
+
+
+<script>
+
+
+
+    const container = document.querySelector('.container');
+    const sectionsContainer = document.querySelector('#jewelry-sections-container');
+
+    const createContactsSection = () => {
+        const section = document.createElement('section');
+        section.classList.add('section', 'contacts-section');
+        section.id = 'sectionContacts';
+        section.setAttribute('aria-labelledby', 'contacts-title');
+
+        section.innerHTML = `
+            <div class="contacts-content">
+                <h2 id="contacts-title">Contact Me</h2>
+                <p>If you have any questions, feel free to reach out!</p>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/authoradorn/" target="_blank" aria-label="Facebook">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://www.instagram.com/kathcares_a_lot/" target="_blank" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://wa.me/27842470358" target="_blank" aria-label="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="mailto:mail@worldofauthor.com" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        `;
+
+        sectionsContainer.appendChild(section);
+    };
+
+const createJewelrySection = (data, sectionId) => {
+    const section = document.createElement('section');
+    section.classList.add('section', 'jewelry-section');
+    section.id = `section${sectionId}`;
+    section.setAttribute('aria-labelledby', `${data['jewelry-title']}-title`);
+    section.setAttribute('data-index', sectionId);
+
+    const dotsContainerId = `dotsContainer${sectionId}`;
+    
+    section.innerHTML = `
+        <div class="jewelry-content">
+            <div class="jewelry-image-container">
+                <img class="jewelry-image" src="${data['jewelry-images'][0]}" alt="${data['jewelry-title']}" width="1200" height="800">
+                <div class="jewelry-price" style="display: none;">
+                    <div class="current-bid">BID</div>
+                    ${data['jewelry-price']}<span class="small-cents">.00</span>
+                </div>
+            </div>
+            <div class="jewelry-details">
+                <h2 class="jewelry-title" id="${data['jewelry-title']}-title">${data['jewelry-title']}</h2>
+                <p class="jewelry-description">${data['jewelry-description']}</p>
+            </div>
+            <div id="${dotsContainerId}" class="dots-container"></div>
+        </div>
+    `;
+
+    const jewelryImage = section.querySelector('.jewelry-image');
+    const jewelryPrice = section.querySelector('.jewelry-price');
+    const dotsContainer = section.querySelector(`#${dotsContainerId}`);
+    dotsContainer.style.opacity = '0';
+    let currentImageIndex = 0;
+
+    data['jewelry-images'].forEach((_, index) => {
+        const dot = document.createElement('span');
+        dot.classList.add('dot');
+        if (index === currentImageIndex) {
+            dot.classList.add('active');
+        }
+        dotsContainer.appendChild(dot);
+    });
+
+    jewelryImage.addEventListener('click', () => {
+        currentImageIndex = (currentImageIndex + 1) % data['jewelry-images'].length;
+        jewelryImage.src = data['jewelry-images'][currentImageIndex];
+        
+        jewelryPrice.style.display = 'block';
+
+        setTimeout(() => {
+            jewelryPrice.style.display = 'none';
+        }, 111111);
+
+        const dots = dotsContainer.querySelectorAll('.dot');
+        dots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentImageIndex);
+        });
+    });
+
+     const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                dotsContainer.style.opacity = '0.4';
+                observer.unobserve(entry.target);
+            } else {
+                dotsContainer.style.opacity = '0';
+            }
+        });
+    }, {
+        threshold: 0.5
+    });
+
+    observer.observe(section);
+
+
+    sectionsContainer.appendChild(section);
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+    const profileTitle = document.querySelector('.profile h1');
+    const profileText = document.querySelector('.profile p');
+    const profileImage = document.querySelector('.profile img');
+    const welcomeText = document.querySelector('.welcome-text');
+
+    profileTitle.style.opacity = '0';
+    profileTitle.style.transform = 'translateY(55px)';
+    profileText.style.opacity = '0';
+    profileText.style.transform = 'translateY(55px)';
+    profileImage.style.opacity = '0';
+    profileImage.style.transform = 'scale(1.1)';
+
+    const welcomeTextObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+
+                welcomeText.style.opacity = '0.6';
+                welcomeText.style.transform = 'translateY(0)';
+                welcomeText.style.transition = 'opacity 6s ease, transform 6s ease';
+
+                profileTitle.style.transition = 'opacity 3s ease, transform 2s ease';
+                profileTitle.style.opacity = '1';
+                profileTitle.style.transform = 'translateY(0)';
+
+                profileText.style.transition = 'opacity 6s ease, transform 5s ease';
+                profileText.style.opacity = '0.5';
+                profileText.style.transform = 'translateY(0)';
+
+                profileImage.style.transition = 'opacity 3s ease, transform 11s ease';
+                profileImage.style.opacity = '0.6';
+                profileImage.style.transform = 'scale(1)';
+
+                    setTimeout(() => {
+                        profileImage.style.transition = 'transform 22s ease';
+                        profileImage.style.transform = 'scale(1.1)';
+                    }, 6000);
+
+                welcomeTextObserver.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.5
+    });
+
+    const profileSection = document.querySelector('.profile');
+    welcomeTextObserver.observe(profileSection);
+
+    loadJewelryData();
+});
+
+const loadJewelryData = () => {
+    jewelryData.forEach((data, index) => {
+        createJewelrySection(data, index + 1);
+    });
+    createContactsSection();
+    jewelryAnimations();
+};
+
+const jewelryAnimations = () => {
+    const sections = document.querySelectorAll('.jewelry-section');
+
+    sections.forEach((section) => {
+        const jewelryImage = section.querySelector('.jewelry-image');
+        const jewelryTitle = section.querySelector('.jewelry-title');
+        const jewelryDescription = section.querySelector('.jewelry-description');
+
+        jewelryImage.style.opacity = 0;
+        jewelryImage.style.transform = 'scale(1.1)';
+        jewelryTitle.style.opacity = 0;
+        jewelryTitle.style.transform = 'translateY(50px)';
+        jewelryDescription.style.opacity = 0;
+        jewelryDescription.style.transform = 'translateY(50px)';
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    jewelryImage.style.transition = 'opacity 1s ease, transform 2s ease';
+                    jewelryImage.style.opacity = 1;
+                    jewelryImage.style.transform = 'scale(1)';
+
+                    jewelryTitle.style.transition = 'opacity 1.1s ease, transform 2s ease';
+                    jewelryTitle.style.opacity = 1;
+                    jewelryTitle.style.transform = 'translateY(0)';
+
+                    jewelryDescription.style.transition = 'opacity 1.8s ease 0.5s, transform 2.2s ease 0.5s';
+                    jewelryDescription.style.opacity = 1;
+                    jewelryDescription.style.transform = 'translateY(0)';
+
+                    setTimeout(() => {
+                        jewelryImage.style.transition = 'transform 33s ease';
+                        jewelryImage.style.transform = 'scale(1.2)';
+                    }, 1999);
+                }
+            });
+        }, {
+            threshold: 0.5
+        });
+
+        observer.observe(section);
+    });
+};
+
+const jewelryData = [
+    {
+        "jewelry-title": "Gold Ring",
+        "jewelry-description": "A stunning 14k gold ring adorned with intricate filigree designs. Perfect for special occasions.",
+        "jewelry-images": ["2.jpg", "3.jpg", "4.jpg"],
+        "jewelry-price": "R9320"
+    },
+    {
+        "jewelry-title": "Singet Ring",
+        "jewelry-description": "A Handmade Silver ring adorned with gemstones. A one of a kind and charming keepsake.",
+        "jewelry-images": ["6.jpg", "8.jpg", "7.jpg"],
+        "jewelry-price": "R7210"
+    }
+];
+
+
+    const smoothScroll = () => {
+        container.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const delta = Math.sign(e.deltaY);
+            container.scrollBy({
+                top: delta * window.innerHeight,
+                behavior: 'smooth'
+            });
+        }, { passive: false });
+    };
+
+    const touchSwipe = () => {
+        let touchStart = null;
+
+        container.addEventListener('touchstart', (e) => {
+            touchStart = e.touches[0].clientY;
+        });
+
+        container.addEventListener('touchmove', (e) => {
+            if (touchStart === null) return;
+
+            const touchEnd = e.touches[0].clientY;
+            const diff = touchStart - touchEnd;
+
+            if (Math.abs(diff) > 50) {
+                container.scrollBy({
+                    top: (diff > 0 ? window.innerHeight : -window.innerHeight),
+                    behavior: 'smooth'
+                });
+                touchStart = null;
+            }
+        });
+    };
+
+    const autoScroll = () => {
+        setTimeout(() => {
+            container.scrollBy({
+                top: window.innerHeight,
+                behavior: 'smooth'
+            });
+        }, 4444);
+    };
+
+    smoothScroll();
+    touchSwipe();
+    autoScroll();
+
+
+</script>
+</body>
+</html>
