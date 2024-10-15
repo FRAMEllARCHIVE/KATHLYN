@@ -278,7 +278,6 @@ transition: opacity 4s ease, transform 3s ease;
 }
 
 .welcome-text {
-
     position: absolute;
     bottom: 10%;
     left: 20%;
@@ -292,7 +291,94 @@ transition: opacity 4s ease, transform 3s ease;
     text-align: right;
 }
 
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.9);
+justify-content: center;
+align-items: center;
+}
 
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 300px;
+    border-radius: 10px;
+    text-align: left;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button {
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: opacity 0.5s ease;
+    width: 100%;
+    opacity: 0.6; 
+    font-family: 'Montserrat', sans-serif;
+}
+
+button:hover {
+    opacity: 0.9; 
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.buyout-container {
+    display: flex;
+    align-items: right;
+    margin-bottom: 5px;
+}
+
+.buyout-container input[type="checkbox"] {
+    margin-right: 1px;
+}
 
 
         @media (max-width: 768px) {
@@ -332,21 +418,47 @@ transition: opacity 4s ease, transform 3s ease;
                 <h1 id="profile-title">Kathlyn Allan</h1>
                 <p>Goldsmith</p>
             </div>
-    <p class="welcome-text">Author Adorn. <br/> <br/> Handcrafted jewellery that illustrates our lives, our loves and our stories.</p>
+    <p class="welcome-text">Author Adorn <br/> <br/> Handcrafted jewellery that illustrates our lives, our loves and our stories.</p>
             <div class="scroll-indicator" aria-hidden="true">↓</div>
         </section>
 
         <div id="jewelry-sections-container"></div>
     </div>
 
-
+<div id="bidFormModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="modalTitle">Place a Bid</h2>
+        <form id="bidForm">
+            <label for="bidAmount" id="bidLabel">Bid Amount (R):</label>
+            <br/>
+            <input type="number" id="bidAmount" name="bidAmount" required>
+            <div class="buyout-container">
+                <label for="buyoutCheckbox">Buyout</label>
+                <input type="checkbox" id="buyoutCheckbox">
+            </div>
+            <label for="clientName">Name:</label>
+            <br/>
+            <input type="text" id="clientName" name="clientName" required>
+            <br/>
+            <label for="clientEmail">Email:</label>
+            <br/>
+            <input type="email" id="clientEmail" name="clientEmail" required>
+            <br/>
+            <label for="clientPhone">tel.</label>
+            <br/>
+            <input type="tel" id="clientPhone" name="clientPhone" required>
+            <br/><br/>
+            <button type="submit">Submit</button>
+            <br/>
+        </form>
+    </div>
+</div>
 
 
 
 
 <script>
-
-
 
     const container = document.querySelector('.container');
     const sectionsContainer = document.querySelector('#jewelry-sections-container');
@@ -575,7 +687,6 @@ const jewelryData = [
     }
 ];
 
-
     const smoothScroll = () => {
         container.addEventListener('wheel', (e) => {
             e.preventDefault();
@@ -622,6 +733,58 @@ const jewelryData = [
     smoothScroll();
     touchSwipe();
     autoScroll();
+
+document.addEventListener("DOMContentLoaded", () => {
+    const prices = document.querySelectorAll('.jewelry-price');
+    const modal = document.getElementById('bidFormModal');
+    const closeModalButton = document.querySelector('.close');
+    const bidAmountInput = document.getElementById('bidAmount');
+    const modalTitle = document.getElementById('modalTitle');
+    const bidLabel = document.getElementById('bidLabel');
+    const buyoutCheckbox = document.getElementById('buyoutCheckbox');
+
+    let priceValue;
+
+    prices.forEach(price => {
+        price.addEventListener('click', () => {
+
+            priceValue = parseFloat(price.textContent.replace(/[^0-9.-]+/g, ""));
+            if (!isNaN(priceValue)) {
+                const minBid = priceValue + 50;
+                bidAmountInput.min = minBid;
+                bidAmountInput.value = minBid;
+            }
+            modal.style.display = 'flex';
+        });
+    });
+
+    closeModalButton.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'flex';
+        }
+    });
+
+    buyoutCheckbox.addEventListener('change', () => {
+        if (buyoutCheckbox.checked) {
+            modalTitle.textContent = 'Buyout';
+            bidLabel.textContent = 'Buyout (R):';
+            bidAmountInput.min = priceValue * 1.5;
+            bidAmountInput.value = bidAmountInput.min;
+        } else {
+            modalTitle.textContent = 'Place a Bid';
+            bidLabel.textContent = 'Bid Amount (R):';
+            bidAmountInput.min = priceValue + 50;
+            bidAmountInput.value = bidAmountInput.min;
+        }
+    });
+});
+
+
+
 
 
 </script>
