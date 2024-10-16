@@ -672,6 +672,14 @@ const owner = 'AUTHORADORN';
 const repo = 'l';
 const branch = 'main';
 
+const preprocessJewelryData = (data) => {
+
+    if (!data['jewelry-price'].toString().trim().startsWith("R")) {
+        data['jewelry-price'] = "R" + data['jewelry-price'];
+    }
+    return data;
+};
+
 const loadJewelryData = async () => {
     const url = `${apiUrl}/repos/${owner}/${repo}/contents?ref=${branch}`;
     const jewelryData = [];
@@ -693,7 +701,9 @@ const loadJewelryData = async () => {
                 throw new Error(`Could not fetch ${file.name}: ${fileResponse.statusText}`);
             }
             const jsonData = await fileResponse.json();
-            jewelryData.push(jsonData);
+
+            const processedData = preprocessJewelryData(jsonData);
+            jewelryData.push(processedData);
         }
 
         jewelryData.forEach((data, index) => {
@@ -707,6 +717,7 @@ const loadJewelryData = async () => {
         console.error(error);
     }
 };
+
 
 const setupPriceClickListeners = () => {
     const prices = document.querySelectorAll('.jewelry-price');
