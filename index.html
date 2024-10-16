@@ -69,8 +69,8 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 10000;
-    opacity: 1; /* Start fully visible */
-    transition: opacity 3s ease-in-out; /* Smooth fade-out */
+    opacity: 1;
+    transition: opacity 3s ease-in-out;
 }
 
 #centered-svg {
@@ -471,7 +471,6 @@ label {
     <img id="centered-svg" src="favicon.svg" alt="Favicon">
 </div>
 
-
     <div id="blackOverlay"></div>
 
     <div class="container">
@@ -540,16 +539,12 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
     const svgContainer = document.getElementById('svg-container');
 
-    // Start fading out the SVG after 1 second
     setTimeout(() => {
-        console.log('Starting SVG fade out');
-        svgContainer.style.opacity = '0';  // Trigger the fade out
-    }, 1111);  // 1 second delay before fade-out
+        svgContainer.style.opacity = '0';
+    }, 1111);
 
-    // Remove the element from the DOM once the transition ends
     svgContainer.addEventListener('transitionend', () => {
-        console.log('SVG fade-out complete');
-        svgContainer.remove();  // Remove from DOM
+        svgContainer.remove();
     });
 });
 
