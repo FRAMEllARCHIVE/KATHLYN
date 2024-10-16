@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="description" content="Kathlyn Allan - Jewelry Designer. Explore stunning collections of handcrafted jewelry, including necklaces, rings, and earrings.">
-    <meta property="og:title" content="Kathlyn Allan - Jewelry Designer">
-    <meta property="og:description" content="Explore stunning collections of handcrafted jewelry, including necklaces, rings, and earrings.">
-    <meta property="og:image" content="1.jpg">
+    <meta name="description" content="Kathlyn Allan - Jewellery Designer. Explore stunning collections of handcrafted jewellery, including necklaces, rings, and earrings.">
+    <meta property="og:title" content="Kathlyn Allan - Jewellery Designer">
+    <meta property="og:description" content="Explore stunning collections of handcrafted jewellery, including necklaces, rings, and earrings.">
+    <meta property="og:image" content="Kathlyn.jpg">
     <meta property="og:url" content="worldofauthor.com">
+
     <title>Author Adorn</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="preload" href="Kathlyn.jpg" as="image">
 <style>
         body, html {
             margin: 0;
@@ -21,6 +24,11 @@
             font-family: 'Montserrat', sans-serif;
             background-color: #f9f6f2;
             color: #333;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
 ::-webkit-scrollbar {
@@ -135,27 +143,27 @@ body {
     font-size: 1.1rem;
     color: #333;
     z-index: 3;
-cursor: pointer;
+    cursor: pointer;
 }
 
 .current-bid {
     font-size: 0.7rem;
     color: #666;
     margin-bottom: -0.5px;
-cursor: pointer;
+    cursor: pointer;
 }
 
 .price-value {
     font-size: 1.5rem;
     color: #333;
-cursor: pointer;
+    cursor: pointer;
 }
 
 .small-cents {
     font-size: 0.55rem;
     color: #333;
     vertical-align: baseline;
-cursor: pointer;
+    cursor: pointer;
 }
 
         .jewelry-image {
@@ -240,18 +248,20 @@ cursor: pointer;
             display: flex;
             justify-content: center;
             gap: 20px;
-            margin-top: 3rem;
+            margin-top: 2rem;
         }
 
         .social-links a {
             text-decoration: none;
             font-size: 2rem;
             color: #333;
-            transition: color 0.3s;
+            transition: opacity 2.2s;
+            opacity: 0.8;
         }
 
         .social-links a:hover {
             color: #1a1a1a;
+            opacity: 1;
         }
 
 .dots-container {
@@ -268,13 +278,13 @@ cursor: pointer;
     background-color: black;
     border-radius: 50%;
     margin: 0 5px;
-    opacity: 0.1;
+    opacity: 0.2;
     transition: opacity 0.8s ease;
     cursor: pointer;
 }
 
 .dot.active {
-    opacity: 0.4;
+    opacity: 0.6;
 }
 
 .welcome-text {
@@ -369,14 +379,25 @@ label {
     font-weight: bold;
 }
 
-.buyout-container {
-    display: flex;
-    align-items: right;
-    margin-bottom: 5px;
+
+
+.spinner {
+    border: 8px solid rgba(255, 255, 255, 0.3);
+    border-top: 8px solid white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    animation: spin 1s linear infinite;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    margin-top: 16px;
+
 }
 
-.buyout-container input[type="checkbox"] {
-    margin-right: 1px;
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 
@@ -402,20 +423,20 @@ label {
             .contacts-content p {
                 font-size: 1rem;
             }
-    .scroll-indicator {
-        bottom: 40px;
-    }
-    .dots-container {
-        margin-bottom: 44px;
-    }
-}
+            .scroll-indicator {
+                bottom: 40px;
+            }
+            .dots-container {
+                margin-bottom: 44px;
+            }
+         }
 
-    </style>
+</style>
 </head>
 <body>
     <div class="container">
         <section class="section profile" id="section0" aria-labelledby="profile-title">
-            <img src="1.jpg" alt="Kathlyn Lange - Jewelry Designer" width="1920" height="1080">
+            <img src="Kathlyn.jpg" alt="Kathlyn Lange - Jewelry Designer" width="1920" height="1080">
             <div class="profile-content">
                 <h1 id="profile-title">Kathlyn Allan</h1>
                 <p>Goldsmith</p>
@@ -430,15 +451,10 @@ label {
 <div id="bidFormModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-        <h2 id="modalTitle">Place a Bid</h2>
+        <h2 id="modalTitle">Place Order</h2>
+        <h3 id="jewelryTitle"></h3>
+        <p id="jewelryPrice"></p>
         <form id="bidForm">
-            <label for="bidAmount" id="bidLabel">Bid Amount (R):</label>
-            <br/>
-            <input type="number" id="bidAmount" name="bidAmount" required>
-            <div class="buyout-container">
-                <label for="buyoutCheckbox">Buyout</label>
-                <input type="checkbox" id="buyoutCheckbox">
-            </div>
             <label for="clientName">Name:</label>
             <br/>
             <input type="text" id="clientName" name="clientName" required>
@@ -454,13 +470,26 @@ label {
             <button type="submit">Submit</button>
             <br/>
         </form>
+<div id="spinner" style="display: none;">
+    <div class="spinner"></div>
+</div>
     </div>
 </div>
 
+
+
+
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
 <script>
 
+  (function() {
+    emailjs.init("ns4M_AJH4lwMRto_t");
+  })();
+
 const studioImages = [
-    "1.jpg",
+    "Kathlyn.jpg",
     "11.jpg",
     "12.jpg",
     "13.jpg",
@@ -572,7 +601,6 @@ const createJewelrySection = (data, sectionId) => {
 
     observer.observe(section);
 
-
     sectionsContainer.appendChild(section);
 };
 
@@ -589,7 +617,6 @@ document.addEventListener("DOMContentLoaded", () => {
         currentStudioImageIndex = (currentStudioImageIndex + 1) % studioImages.length;
         profileImage.src = studioImages[currentStudioImageIndex];
     });
-
 
     profileTitle.style.opacity = '0';
     profileTitle.style.transform = 'translateY(55px)';
@@ -636,13 +663,75 @@ document.addEventListener("DOMContentLoaded", () => {
     loadJewelryData();
 });
 
-const loadJewelryData = () => {
-    jewelryData.forEach((data, index) => {
-        createJewelrySection(data, index + 1);
-    });
-    createContactsSection();
-    jewelryAnimations();
+const apiUrl = 'https://api.github.com';
+const owner = 'AUTHORADORN';
+const repo = 'l';
+const branch = 'main';
+
+const loadJewelryData = async () => {
+    const url = `${apiUrl}/repos/${owner}/${repo}/contents?ref=${branch}`;
+    const jewelryData = [];
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Could not fetch repository contents: ${response.statusText}`);
+        }
+        const files = await response.json();
+
+        const jsonFiles = files.filter(file => file.name.endsWith('.json'));
+        
+        for (const file of jsonFiles) {
+            const fileUrl = file.download_url;
+
+            const fileResponse = await fetch(fileUrl);
+            if (!fileResponse.ok) {
+                throw new Error(`Could not fetch ${file.name}: ${fileResponse.statusText}`);
+            }
+            const jsonData = await fileResponse.json();
+            jewelryData.push(jsonData);
+        }
+
+        jewelryData.forEach((data, index) => {
+            createJewelrySection(data, index + 1);
+        });
+        setupPriceClickListeners();
+        createContactsSection();
+        jewelryAnimations();
+
+    } catch (error) {
+        console.error(error);
+    }
 };
+
+const setupPriceClickListeners = () => {
+    const prices = document.querySelectorAll('.jewelry-price');
+    prices.forEach(price => {
+        price.addEventListener('click', () => {
+            const jewelrySection = price.closest('.jewelry-section');
+            const jewelryTitleElement = jewelrySection.querySelector('.jewelry-title');
+
+            if (!jewelryTitleElement) {
+                console.error('Jewelry title element not found.');
+                return;
+            }
+
+            selectedTitle = jewelryTitleElement.textContent;
+            priceValue = parseFloat(price.textContent.replace(/[^0-9.-]+/g, ""));
+
+            if (!isNaN(priceValue)) {
+                const minBid = priceValue;
+            }
+
+            document.getElementById('jewelryTitle').textContent = selectedTitle;
+            document.getElementById('jewelryPrice').innerHTML = `Price <br/>R${priceValue.toFixed(2)}`;
+
+            modal.style.display = 'flex';
+        });
+    });
+};
+
+document.addEventListener("DOMContentLoaded", loadJewelryData);
 
 const jewelryAnimations = () => {
     const sections = document.querySelectorAll('.jewelry-section');
@@ -687,21 +776,6 @@ const jewelryAnimations = () => {
         observer.observe(section);
     });
 };
-
-const jewelryData = [
-    {
-        "jewelry-title": "Gold Ring",
-        "jewelry-description": "A stunning 14k gold ring adorned with intricately carved laurels. The perfect gift.",
-        "jewelry-images": ["2.jpg", "3.jpg", "4.jpg"],
-        "jewelry-price": "R9320"
-    },
-    {
-        "jewelry-title": "Silver Ring",
-        "jewelry-description": "A Handmade Silver ring adorned with gemstones. A one of a kind and charming keepsake.",
-        "jewelry-images": ["6.jpg", "8.jpg", "7.jpg"],
-        "jewelry-price": "R7210"
-    }
-];
 
     const smoothScroll = () => {
         container.addEventListener('wheel', (e) => {
@@ -750,7 +824,6 @@ const jewelryData = [
     touchSwipe();
     autoScroll();
 
-document.addEventListener("DOMContentLoaded", () => {
     const prices = document.querySelectorAll('.jewelry-price');
     const modal = document.getElementById('bidFormModal');
     const closeModalButton = document.querySelector('.close');
@@ -759,17 +832,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const bidLabel = document.getElementById('bidLabel');
     const buyoutCheckbox = document.getElementById('buyoutCheckbox');
 
+
+document.addEventListener("DOMContentLoaded", () => {
+
     let priceValue;
+    let selectedTitle;
 
     prices.forEach(price => {
         price.addEventListener('click', () => {
+            const jewelrySection = price.closest('.jewelry-section');
+            const jewelryTitleElement = jewelrySection.querySelector('.jewelry-title');
+
+            selectedTitle = jewelryTitleElement.textContent;
 
             priceValue = parseFloat(price.textContent.replace(/[^0-9.-]+/g, ""));
+
             if (!isNaN(priceValue)) {
-                const minBid = priceValue + 50;
-                bidAmountInput.min = minBid;
-                bidAmountInput.value = minBid;
+                const minBid = priceValue;
             }
+
+            document.getElementById('jewelryTitle').textContent = selectedTitle;
+            document.getElementById('jewelryPrice').innerHTML = `Price <br/>R${priceValue.toFixed(2)}`;
+
             modal.style.display = 'flex';
         });
     });
@@ -780,23 +864,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.addEventListener('click', (event) => {
         if (event.target === modal) {
-            modal.style.display = 'flex';
+            modal.style.display = 'none';
         }
     });
+});
 
-    buyoutCheckbox.addEventListener('change', () => {
-        if (buyoutCheckbox.checked) {
-            modalTitle.textContent = 'Buyout';
-            bidLabel.textContent = 'Buyout (R):';
-            bidAmountInput.min = priceValue * 1.5;
-            bidAmountInput.value = bidAmountInput.min;
-        } else {
-            modalTitle.textContent = 'Place a Bid';
-            bidLabel.textContent = 'Bid Amount (R):';
-            bidAmountInput.min = priceValue + 50;
-            bidAmountInput.value = bidAmountInput.min;
-        }
-    });
+document.addEventListener("DOMContentLoaded", () => {
+
+const bidForm = document.getElementById('bidForm');
+const spinner = document.getElementById('spinner');
+
+bidForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+spinner.style.display = 'flex';
+
+    const clientName = document.getElementById('clientName').value;
+    const clientEmail = document.getElementById('clientEmail').value;
+    const clientPhone = document.getElementById('clientPhone').value;
+    const jewelryTitle = document.getElementById('jewelryTitle').textContent;
+    const jewelryPrice = document.getElementById('jewelryPrice').innerText;
+
+    const emailData = {
+        to_name: "Kathlyn",
+        from_name: clientName,
+        phone: clientPhone,
+        jewelry_title: jewelryTitle,
+        jewelry_price: jewelryPrice,
+        message: `Name: ${clientName}\nProduct: ${jewelryTitle}\n\n${jewelryPrice}\n\nContact Number: ${clientPhone}\nEmail: ${clientEmail}`,
+        reply_to: clientEmail,
+    };
+
+    emailjs.send('service_5elk9sj', 'template_lzdpses', emailData)
+        .then((response) => {
+            console.log('Email sent successfully!', response);
+            alert('Your order has been placed successfully!');
+            bidForm.reset();
+            modal.style.display = 'none';
+        }, (error) => {
+            console.error('Failed to send email. Error:', error);
+            alert('There was an error sending your order. Please try again later.');
+        })
+        .finally(() => {
+            spinner.style.display = 'none';
+        });
+});
+
+
 });
 
 </script>
