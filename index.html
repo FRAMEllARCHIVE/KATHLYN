@@ -45,6 +45,45 @@ body {
     -ms-overflow-style: none;
 }
 
+#blackOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 3.3s ease;
+    pointer-events: none;
+}
+
+#svg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 1; /* Start fully visible */
+    transition: opacity 3s ease-in-out; /* Smooth fade-out */
+}
+
+#centered-svg {
+    width: 72px;
+    height: auto;
+    fill: white;
+}
+
+
+
+
+
+
         .container {
             height: 100vh;
             max-width: 100vw;
@@ -381,8 +420,6 @@ label {
     font-weight: bold;
 }
 
-
-
 .spinner {
     border: 8px solid rgba(255, 255, 255, 0.3);
     border-top: 8px solid white;
@@ -436,6 +473,13 @@ label {
 </style>
 </head>
 <body>
+<div id="svg-container">
+    <img id="centered-svg" src="favicon.svg" alt="Favicon">
+</div>
+
+
+    <div id="blackOverlay"></div>
+
     <div class="container">
         <section class="section profile" id="section0" aria-labelledby="profile-title">
             <img src="Kathlyn.jpg" alt="Kathlyn Lange - Jewelry Designer" width="1920" height="1080">
@@ -480,8 +524,6 @@ label {
 
 
 
-
-
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 <script>
@@ -489,6 +531,36 @@ label {
   (function() {
     emailjs.init("ns4M_AJH4lwMRto_t");
   })();
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    setTimeout(() => {
+        const overlay = document.getElementById('blackOverlay');
+        overlay.style.opacity = '0';
+        setTimeout(() => {
+            overlay.style.display = 'none';
+        }, 4444);
+    }, 4444);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const svgContainer = document.getElementById('svg-container');
+
+    // Start fading out the SVG after 1 second
+    setTimeout(() => {
+        console.log('Starting SVG fade out');
+        svgContainer.style.opacity = '0';  // Trigger the fade out
+    }, 1111);  // 1 second delay before fade-out
+
+    // Remove the element from the DOM once the transition ends
+    svgContainer.addEventListener('transitionend', () => {
+        console.log('SVG fade-out complete');
+        svgContainer.remove();  // Remove from DOM
+    });
+});
+
+
+
 
 const studioImages = [
     "Kathlyn.jpg",
@@ -634,28 +706,30 @@ document.addEventListener("DOMContentLoaded", () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
 
-                welcomeText.style.opacity = '0.6';
-                welcomeText.style.transform = 'translateY(0)';
-                welcomeText.style.transition = 'opacity 6s ease, transform 6s ease';
+                setTimeout(() => {
+                    welcomeText.style.opacity = '0.6';
+                    welcomeText.style.transform = 'translateY(0)';
+                    welcomeText.style.transition = 'opacity 6s ease, transform 6s ease';
 
-                profileTitle.style.transition = 'opacity 3s ease, transform 2s ease';
-                profileTitle.style.opacity = '1';
-                profileTitle.style.transform = 'translateY(0)';
+                    profileTitle.style.transition = 'opacity 3s ease, transform 2s ease';
+                    profileTitle.style.opacity = '1';
+                    profileTitle.style.transform = 'translateY(0)';
 
-                profileText.style.transition = 'opacity 6s ease, transform 5s ease';
-                profileText.style.opacity = '0.5';
-                profileText.style.transform = 'translateY(0)';
+                    profileText.style.transition = 'opacity 6s ease, transform 5s ease';
+                    profileText.style.opacity = '0.5';
+                    profileText.style.transform = 'translateY(0)';
 
-                profileImage.style.transition = 'opacity 3s ease, transform 11s ease';
-                profileImage.style.opacity = '0.6';
-                profileImage.style.transform = 'scale(1)';
+                    profileImage.style.transition = 'opacity 3s ease, transform 11s ease';
+                    profileImage.style.opacity = '0.6';
+                    profileImage.style.transform = 'scale(1)';
 
                     setTimeout(() => {
                         profileImage.style.transition = 'transform 22s ease';
                         profileImage.style.transform = 'scale(1.1)';
                     }, 6000);
 
-                welcomeTextObserver.unobserve(entry.target);
+                    welcomeTextObserver.unobserve(entry.target);
+                }, 4444);
             }
         });
     }, {
@@ -664,8 +738,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const profileSection = document.querySelector('.profile');
     welcomeTextObserver.observe(profileSection);
-
 });
+
 
 const apiUrl = 'https://api.github.com';
 const owner = 'AUTHORADORN';
@@ -792,47 +866,70 @@ const jewelryAnimations = () => {
     });
 };
 
-    const smoothScroll = () => {
-        container.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            const delta = Math.sign(e.deltaY);
-            container.scrollBy({
-                top: delta * window.innerHeight,
-                behavior: 'smooth'
-            });
-        }, { passive: false });
-    };
+const smoothScroll = () => {
+    let isScrolling = false;
 
-    const touchSwipe = () => {
-        let touchStart = null;
+    const scrollPage = (delta) => {
+        if (isScrolling) return;
 
-        container.addEventListener('touchstart', (e) => {
-            touchStart = e.touches[0].clientY;
+        isScrolling = true;
+        const scrollAmount = delta * window.innerHeight * 0.75;
+
+        container.scrollBy({
+            top: scrollAmount,
+            behavior: 'smooth'
         });
 
-        container.addEventListener('touchmove', (e) => {
-            if (touchStart === null) return;
-
-            const touchEnd = e.touches[0].clientY;
-            const diff = touchStart - touchEnd;
-
-            if (Math.abs(diff) > 50) {
-                container.scrollBy({
-                    top: (diff > 0 ? window.innerHeight : -window.innerHeight),
-                    behavior: 'smooth'
-                });
-                touchStart = null;
-            }
-        });
+        setTimeout(() => {
+            isScrolling = false;
+        }, 600);
     };
 
-    const autoScroll = () => {
+    container.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const delta = Math.sign(e.deltaY);
+        scrollPage(delta);
+    }, { passive: false });
+};
+
+
+const touchSwipe = () => {
+    let touchStart = null;
+    let isSwiping = false;
+
+    const swipeThreshold = 50;
+
+    container.addEventListener('touchstart', (e) => {
+        touchStart = e.touches[0].clientY;
+    });
+
+    container.addEventListener('touchmove', (e) => {
+        if (touchStart === null || isSwiping) return;
+
+        const touchEnd = e.touches[0].clientY;
+        const diff = touchStart - touchEnd;
+
+        if (Math.abs(diff) > swipeThreshold) {
+            isSwiping = true;
+            const direction = diff > 0 ? 1 : -1;
+            smoothScroll(direction);
+            touchStart = null;
+
+            setTimeout(() => {
+                isSwiping = false;
+            }, 600);
+        }
+    });
+};
+
+
+const autoScroll = () => {
         setTimeout(() => {
             container.scrollBy({
                 top: window.innerHeight,
                 behavior: 'smooth'
             });
-        }, 4444);
+        }, 9999);
     };
 
     smoothScroll();
