@@ -537,11 +537,13 @@ const createJewelrySection = (data, sectionId) => {
     section.setAttribute('data-index', sectionId);
 
     const dotsContainerId = `dotsContainer${sectionId}`;
-    
+
+    const imageBaseUrl = "https://raw.githubusercontent.com/AUTHORADORN/l/main/images/";
+
     section.innerHTML = `
         <div class="jewelry-content">
             <div class="jewelry-image-container">
-                <img class="jewelry-image" src="${data['jewelry-images'][0]}" alt="${data['jewelry-title']}" width="1200" height="800">
+                <img class="jewelry-image" src="${imageBaseUrl + data['jewelry-images'][0]}" alt="${data['jewelry-title']}" width="1200" height="800">
                 <div class="jewelry-price" style="display: none;">
                     <div class="current-bid">BUY</div>
                     ${data['jewelry-price']}<span class="small-cents">.00</span>
@@ -561,7 +563,7 @@ const createJewelrySection = (data, sectionId) => {
     dotsContainer.style.opacity = '0';
     let currentImageIndex = 0;
 
-    data['jewelry-images'].forEach((_, index) => {
+    data['jewelry-images'].forEach((image, index) => {
         const dot = document.createElement('span');
         dot.classList.add('dot');
         if (index === currentImageIndex) {
@@ -572,8 +574,8 @@ const createJewelrySection = (data, sectionId) => {
 
     jewelryImage.addEventListener('click', () => {
         currentImageIndex = (currentImageIndex + 1) % data['jewelry-images'].length;
-        jewelryImage.src = data['jewelry-images'][currentImageIndex];
-        
+        jewelryImage.src = imageBaseUrl + data['jewelry-images'][currentImageIndex];
+
         jewelryPrice.style.display = 'block';
 
         setTimeout(() => {
@@ -586,7 +588,7 @@ const createJewelrySection = (data, sectionId) => {
         });
     });
 
-     const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 dotsContainer.style.opacity = '0.4';
@@ -603,6 +605,7 @@ const createJewelrySection = (data, sectionId) => {
 
     sectionsContainer.appendChild(section);
 };
+
 
 document.addEventListener("DOMContentLoaded", () => {
     const profileTitle = document.querySelector('.profile h1');
