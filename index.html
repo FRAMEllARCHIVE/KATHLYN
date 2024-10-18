@@ -53,8 +53,8 @@ body {
     height: 100%;
     background-color: black;
     z-index: 9999;
-    opacity: 1;
-    transition: opacity 3.3s ease;
+    opacity: 0.1;
+    transition: opacity 5.5s ease-in-out;
     pointer-events: none;
 }
 
@@ -76,8 +76,12 @@ body {
 #centered-svg {
     width: 111px;
     height: auto;
-    opacity: 0.1;
+    opacity: 0;
+    transition: opacity 4s ease-in-out; /* Transition for the SVG */
 }
+
+
+
 
         .container {
             height: 100vh;
@@ -540,18 +544,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
     const svgContainer = document.getElementById('svg-container');
+    const centeredSvg = document.getElementById('centered-svg');
+
+
+    setTimeout(() => {
+        centeredSvg.style.opacity = '0.4';
+    }, 10);
 
     setTimeout(() => {
         svgContainer.style.opacity = '0';
     }, 1111);
 
-    svgContainer.addEventListener('transitionend', () => {
-        svgContainer.remove();
+    svgContainer.addEventListener('transitionend', (event) => {
+        if (event.propertyName === 'opacity' && svgContainer.style.opacity === '0') {
+            svgContainer.remove();
+        } else {
+        }
     });
 });
-
-
-
 
 const studioImages = [
     "Kathlyn.jpg",
