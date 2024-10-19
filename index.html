@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<!-- Legal Footnote: This content is subject to copyright and should not be reproduced without permission. -->
+<!-- Written and created by Thomas John-Michael de Beer, feel free to contact me via tjdebeer@gmail.com  -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -212,6 +214,15 @@ body {
             object-fit: cover;
             transition: opacity 3s ease, transform 1s ease;
         }
+
+.jewelry-image.fade-out {
+    opacity: 0;
+}
+
+.jewelry-image.fade-in {
+    opacity: 1;
+}
+
 
         .jewelry-details {
             text-align: left;
@@ -604,6 +615,14 @@ const studioImages = [
         sectionsContainer.appendChild(section);
     };
 
+const preloadNextImage = (data, currentImageIndex, imageBaseUrl) => {
+    const nextImageIndex = (currentImageIndex + 1) % data['jewelry-images'].length;
+    const nextImageUrl = imageBaseUrl + data['jewelry-images'][nextImageIndex];
+
+    const img = new Image();
+    img.src = nextImageUrl;
+};
+
 const createJewelrySection = (data, sectionId) => {
     const section = document.createElement('section');
     section.classList.add('section', 'jewelry-section');
@@ -612,7 +631,6 @@ const createJewelrySection = (data, sectionId) => {
     section.setAttribute('data-index', sectionId);
 
     const dotsContainerId = `dotsContainer${sectionId}`;
-
     const imageBaseUrl = "https://raw.githubusercontent.com/AUTHORADORN/l/main/images/";
 
     section.innerHTML = `
@@ -647,20 +665,32 @@ const createJewelrySection = (data, sectionId) => {
         dotsContainer.appendChild(dot);
     });
 
+    jewelryImage.addEventListener('mouseover', () => {
+        preloadNextImage(data, currentImageIndex, imageBaseUrl);
+    });
+
+let priceTimeoutId;
+
     jewelryImage.addEventListener('click', () => {
         currentImageIndex = (currentImageIndex + 1) % data['jewelry-images'].length;
         jewelryImage.src = imageBaseUrl + data['jewelry-images'][currentImageIndex];
 
         jewelryPrice.style.display = 'block';
 
-        setTimeout(() => {
-            jewelryPrice.style.display = 'none';
-        }, 111111);
+    if (priceTimeoutId) {
+        clearTimeout(priceTimeoutId);
+    }
+
+    priceTimeoutId = setTimeout(() => {
+              jewelryPrice.style.display = 'none';
+        }, 11111);
 
         const dots = dotsContainer.querySelectorAll('.dot');
         dots.forEach((dot, index) => {
             dot.classList.toggle('active', index === currentImageIndex);
         });
+
+        preloadNextImage(data, currentImageIndex, imageBaseUrl);
     });
 
     const observer = new IntersectionObserver((entries) => {
@@ -681,7 +711,6 @@ const createJewelrySection = (data, sectionId) => {
     sectionsContainer.appendChild(section);
 };
 
-
 document.addEventListener("DOMContentLoaded", () => {
     const profileTitle = document.querySelector('.profile h1');
     const profileText = document.querySelector('.profile p');
@@ -691,10 +720,18 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentStudioImageIndex = 0;
     profileImage.src = studioImages[currentStudioImageIndex];
 
+    const preloadNextStudioImage = () => {
+        const nextStudioImageIndex = (currentStudioImageIndex + 1) % studioImages.length;
+        const nextImage = new Image();
+        nextImage.src = studioImages[nextStudioImageIndex];
+    };
+
     profileImage.addEventListener('click', () => {
         currentStudioImageIndex = (currentStudioImageIndex + 1) % studioImages.length;
         profileImage.src = studioImages[currentStudioImageIndex];
     });
+
+    profileImage.addEventListener('mouseover', preloadNextStudioImage);
 
     profileTitle.style.opacity = '0';
     profileTitle.style.transform = 'translateY(55px)';
@@ -740,6 +777,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const profileSection = document.querySelector('.profile');
     welcomeTextObserver.observe(profileSection);
 });
+
 
 
 const apiUrl = 'https://api.github.com';
